@@ -1,0 +1,89 @@
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+
+namespace StudentAPI.DataAccess;
+
+public partial class StudentDataContext : DbContext
+{
+    public StudentDataContext()
+    {
+        Schools = Set<School>();
+    }
+
+    public StudentDataContext(DbContextOptions<StudentDataContext> options)
+        : base(options)
+    {
+        Schools = Set<School>();
+    }
+
+    public virtual DbSet<School> Schools { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.UseSqlServer();
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<School>(entity =>
+        {
+            entity.HasKey(e => e.StudentId).HasName("PK__School__A2F4E9ACE21B76C5");
+
+            entity.ToTable("School");
+
+            entity.Property(e => e.StudentId)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("Student_ID");
+            entity.Property(e => e.Class)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Gender)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("gender");
+            entity.Property(e => e.GradeId)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("GradeID");
+            entity.Property(e => e.NationalIty)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("NationalITy");
+            entity.Property(e => e.ParentAnsweringSurvey)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.ParentschoolSatisfaction)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.PlaceofBirth)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Raisedhands).HasColumnName("raisedhands");
+            entity.Property(e => e.Relation)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.SectionId)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("SectionID");
+            entity.Property(e => e.Semester)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.StageId)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("StageID");
+            entity.Property(e => e.StudentAbsenceDays)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Topic)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.VisItedResources).HasColumnName("VisITedResources");
+        });
+
+        OnModelCreatingPartial(modelBuilder);
+    }
+
+    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+}
